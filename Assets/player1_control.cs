@@ -9,6 +9,7 @@ public class player1_control : MonoBehaviour
     public float speed;
     public float angle;
     public bool accumulative_state;
+    public bool serving = true;
     // Start is called before the first frame update
     void Start()
     {
