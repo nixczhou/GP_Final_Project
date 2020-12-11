@@ -24,14 +24,14 @@ public class ball_controller : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (Input.GetKey(KeyCode.K))
-        {
-            ball_reinit_to_player1();
-        }
-        if (Input.GetKey(KeyCode.L))
-        {
-            ball_reinit_to_player2();
-        }
+        // if (Input.GetKey(KeyCode.K))
+        // {
+        //     ball_reinit_to_player1();
+        // }
+        // if (Input.GetKey(KeyCode.L))
+        // {
+        //     ball_reinit_to_player2();
+        // }
         if (Input.GetKey(KeyCode.Q))
         {
             skill1.Play();
