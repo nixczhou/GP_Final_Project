@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public class player1_control : MonoBehaviour
 {
@@ -12,7 +14,11 @@ public class player1_control : MonoBehaviour
 
     //Serving
     public bool serving = true; //if it is your turn to serve.
-    public float force = 10.0f;
+    public float force = 0.0f;
+
+    //PowerBar
+    public GameObject PowerBar;
+    public float max_force = 18.0f;
 
     // Other Gameobjects
     public GameObject aim;
@@ -83,6 +89,14 @@ public class player1_control : MonoBehaviour
         if(state.fullPathHash == backhandState) animator.SetBool("backhand", false);
         if(state.fullPathHash == servePrepState) animator.SetBool("servePrep", false);
         if(state.fullPathHash == serveState) animator.SetBool("serve", false);
+
+        if(Input.GetKey(KeyCode.Space)){
+            //update show force bar
+            force += 0.2f;
+            PowerBar.transform.GetChild(2).GetComponent<Image>().fillAmount = force/max_force;
+            if(force > max_force) force = 0.0f;
+        }
+
     
     }
 
@@ -102,6 +116,10 @@ public class player1_control : MonoBehaviour
             // Hitting direction
             Vector3 dir = aim.transform.position - gameObject.transform.position;
             col.gameObject.GetComponent<Rigidbody>().velocity = dir.normalized * force + new Vector3(0,6,0);
+
+            //Reset the power
+            force = 0.0f;
+            PowerBar.transform.GetChild(2).GetComponent<Image>().fillAmount = 0.0f;
             
         }
     }
