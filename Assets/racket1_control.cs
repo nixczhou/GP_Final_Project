@@ -10,26 +10,29 @@ public class racket1_control : MonoBehaviour
     public Vector3 direction;
     public float force;
     public bool release_state = false;
+    public float minForce = 30.0f;
+    public float maxForce = 80.0f;
+
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         temp_position = new Vector3 (0.0f, 0.0f, 0.0f);
         direction = new Vector3 (0.0f, 0.0f, 0.0f);
-        force = 0.0f;
+        force = minForce;
     }
     // Update is called once per frame
     void FixedUpdate()
     {
-        if(Input.GetKey(KeyCode.J))
+        if(Input.GetKey(KeyCode.G) || Input.GetKey(KeyCode.F) && force <= maxForce)
         {
-            force += 5.0f;
+            force += 2.0f;
         }
         else
         {
             StartCoroutine(Delay());
         }
-        if(Input.GetKeyUp(KeyCode.J))
+        if(Input.GetKeyUp(KeyCode.G)|| Input.GetKey(KeyCode.F))
         {
             release_state = true;
         }
