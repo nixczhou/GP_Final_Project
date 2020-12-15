@@ -21,6 +21,13 @@ public class player1_control : MonoBehaviour
     public GameObject PowerBar;
     public float max_force = 18.0f;
 
+    //HealthBar
+    public GameObject HealthBar;
+
+    //Charge
+    private float charge = 0.0f;
+    public float charge_amount = 0.2f;
+
     // Other Gameobjects
     public GameObject aim;
     public float aimSpeed;
@@ -45,6 +52,10 @@ public class player1_control : MonoBehaviour
         forehandState = Animator.StringToHash("Base Layer.Forehand");
         backhandState = Animator.StringToHash("Base Layer.Backhand");
         serveState = Animator.StringToHash("Base Layer.Serve");
+
+        //Initialize Charge Bar
+        HealthBar.transform.GetChild(4).GetComponent<Image>().fillAmount = 0.0f;
+
     }
 
     private float CalculateHoldDownForce(float holdTime){
@@ -135,7 +146,12 @@ public class player1_control : MonoBehaviour
             //Reset the power
             force = 10.0f;
             PowerBar.transform.GetChild(2).GetComponent<Image>().fillAmount = 0.0f;
-            
+
+            //Gain charge
+            charge = charge + charge_amount;
+            HealthBar.transform.GetChild(4).GetComponent<Image>().fillAmount = Mathf.Min(1.0f,charge);
+
+
         }
     }
 
