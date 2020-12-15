@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public class player1_control : MonoBehaviour
 {
@@ -9,10 +11,15 @@ public class player1_control : MonoBehaviour
     public racket1_control racket;
     public float speed;
     public bool accumulative_state;
+    private float holdDownStartTime;
 
     //Serving
     public bool serving = true; //if it is your turn to serve.
     public float force = 10.0f;
+
+    //PowerBar
+    public GameObject PowerBar;
+    public float max_force = 18.0f;
 
     // Other Gameobjects
     public GameObject aim;
@@ -39,6 +46,13 @@ public class player1_control : MonoBehaviour
         backhandState = Animator.StringToHash("Base Layer.Backhand");
         serveState = Animator.StringToHash("Base Layer.Serve");
     }
+
+    private float CalculateHoldDownForce(float holdTime){
+        float maxForceHoldDownTime = 1.8f;
+        float holdTimeNormalized = Mathf.Clamp01(holdTime/maxForceHoldDownTime);
+        float power = holdTimeNormalized * max_force;
+        return power;
+    }
     
     void FixedUpdate()
     {
@@ -49,19 +63,25 @@ public class player1_control : MonoBehaviour
             GetComponent<BoxCollider>().enabled = false;
             if(Input.GetKeyDown(KeyCode.E)){
                 animator.SetBool("servePrep", true);
-                
+                //start to record time
+                holdDownStartTime = Time.time;
             }
-            else if(Input.GetKeyUp(KeyCode.E)){
+            if(Input.GetKey(KeyCode.E)){
+                float holdDownTime = Time.time - holdDownStartTime;
+                PowerBar.transform.GetChild(2).GetComponent<Image>().fillAmount = CalculateHoldDownForce(holdDownTime)/max_force;
+            }
+            
+            if(Input.GetKeyUp(KeyCode.E)){
                 //Initialize Ball
+                float holdDownTime = Time.time - holdDownStartTime;
                 ball.transform.position = transform.position + new Vector3(0.0f, 2.0f, 0.0f);
-                force = 15.0f;
+                force = CalculateHoldDownForce(holdDownTime);
                 animator.SetBool("serve", true);
                 animator.SetBool("servePrep", false);
 
                 // Hitting direction
                 Vector3 dir = aim.transform.position - gameObject.transform.position;
                 ball.GetComponent<Rigidbody>().velocity = dir.normalized * force + new Vector3(0,10,0);
-                force = 10.0f;
                 serving = false;
             }
         }
@@ -83,6 +103,15 @@ public class player1_control : MonoBehaviour
         if(state.fullPathHash == backhandState) animator.SetBool("backhand", false);
         if(state.fullPathHash == servePrepState) animator.SetBool("servePrep", false);
         if(state.fullPathHash == serveState) animator.SetBool("serve", false);
+
+        if(Input.GetKey(KeyCode.Space)){
+            //update show force bar
+            force += 0.2f;
+            float bar_fill = force-10.0f;
+            PowerBar.transform.GetChild(2).GetComponent<Image>().fillAmount = bar_fill/max_force;
+            if(bar_fill > max_force) bar_fill = 0.0f;
+        }
+
     
     }
 
@@ -102,6 +131,10 @@ public class player1_control : MonoBehaviour
             // Hitting direction
             Vector3 dir = aim.transform.position - gameObject.transform.position;
             col.gameObject.GetComponent<Rigidbody>().velocity = dir.normalized * force + new Vector3(0,6,0);
+
+            //Reset the power
+            force = 10.0f;
+            PowerBar.transform.GetChild(2).GetComponent<Image>().fillAmount = 0.0f;
             
         }
     }
