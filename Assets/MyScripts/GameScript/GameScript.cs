@@ -196,6 +196,10 @@ public class GameScript : MonoBehaviour
                         }
                     }
                     else{
+                        ballOut = true;
+                        pointReset = true;
+                        ballReset();
+                        gamePointCalculation();
                         outText.text = "OUT!";
                         StartCoroutine(clearOutText(2.0f));
                     }
@@ -203,7 +207,7 @@ public class GameScript : MonoBehaviour
                     
                 }
                 //didn't go over the net
-                if(player1LastHit && positionZ < 0){
+                if(player1LastHit && positionZ <= 0){
                     print("ballOut!");
                     ballOut = true;
                     pointReset = true;
@@ -229,7 +233,7 @@ public class GameScript : MonoBehaviour
                     ballReset();
                     return;
                 }
-                else if(!player1LastHit && positionZ > 0.0f){
+                else if(!player1LastHit && positionZ >= 0.0f){
                     ballOut = true;
                     pointReset = true;
                     if(ballState  >= 0 && ballState <= 3){
@@ -244,10 +248,13 @@ public class GameScript : MonoBehaviour
                         return;
                     }
                     else{
+                        ballOut = true;
+                        pointReset = true;
+                        ballReset();
+                        gamePointCalculation();
                         outText.text = "OUT!";
                         StartCoroutine(clearOutText(2.0f));
                     }
-                    ballReset();
                     return;
                 }
 
