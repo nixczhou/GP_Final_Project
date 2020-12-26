@@ -2,36 +2,36 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ball_controller : MonoBehaviour
+public class BallController : MonoBehaviour
 {
     Rigidbody rb;
-    // Start is called before the first frame update
-    public Vector3 temp_position;
-    public Vector3 direction;
+
+    //firstBounce
+    public bool firstBounce = false;
+    public bool player1LastHit = true;
+    /*
+        ballState (Same As GameState)
+        0 = rightfirstServe
+        1 = rightSecondServe
+        2 = leftFirstServe 
+        3 = leftSecondServe
+        -1 = notServing
+    */
+    public int ballState;
+
     public ParticleSystem skill1;
     public ParticleSystem skill2;
-    public bool fly_state;
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        temp_position = new Vector3 (0.0f, 0.0f, 0.0f);
-        direction = new Vector3 (0.0f, 0.0f, 0.0f);
-        fly_state = false;
+        
         skill1 = GameObject.Find("skill1").GetComponent<ParticleSystem>();
         skill2 = GameObject.Find("skill2").GetComponent<ParticleSystem>();
     }
     // Update is called once per frame
     void FixedUpdate()
     {
-        // if (Input.GetKey(KeyCode.K))
-        // {
-        //     ball_reinit_to_player1();
-        // }
-        // if (Input.GetKey(KeyCode.L))
-        // {
-        //     ball_reinit_to_player2();
-        // }
         if (Input.GetKey(KeyCode.Q))
         {
             skill1.Play();
@@ -40,11 +40,18 @@ public class ball_controller : MonoBehaviour
         {
             skill2.Play();
         }
-        direction = gameObject.transform.position - temp_position;
-        temp_position = gameObject.transform.position;
     }
     void OnCollisionEnter (Collision other)
     {
+        if(other.gameObject.name == "Player1"){
+            player1LastHit = true;
+            firstBounce = false;
+        } 
+        else if(other.gameObject.name == "Player2"){
+            player1LastHit = false;
+            firstBounce = false;
+        }
+        /*
         if(other.gameObject.name=="player1" || other.gameObject.name=="player2")
         {
             if (skill1.isPlaying)
@@ -56,6 +63,7 @@ public class ball_controller : MonoBehaviour
                 skill2.Stop();
             }
         }
+        */
     }
 
     public void ball_reinit_to_player1()
