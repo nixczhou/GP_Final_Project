@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System;
 
 public class PlayerController : MonoBehaviour
 {
@@ -238,6 +239,8 @@ public class PlayerController : MonoBehaviour
         }
         
         if(Input.GetKey(serveKey)){
+            if (String.Equals(serveKey, "e")) PowerBar = GameObject.FindWithTag("PowerBar1");
+            else PowerBar = GameObject.FindWithTag("PowerBar2");
             holdDownTime = Time.time - holdDownStartTime;
             PowerBar.transform.GetChild(2).GetComponent<Image>().fillAmount = CalculateHoldDownForce(holdDownTime)/max_force;
         }

@@ -7,13 +7,12 @@ public class LoadCharacter : MonoBehaviour
 {
 	public GameObject[] characterPrefabs;
 	public Transform spawnPoint;
-	public TMP_Text label;
 
 	void Start()
 	{
-		int selectedCharacter = PlayerPrefs.GetInt("selectedCharacter");
+		int selectedCharacter = PlayerPrefs.GetInt("player1_selectedCharacter");
 		GameObject prefab = characterPrefabs[selectedCharacter];
 		GameObject clone = Instantiate(prefab, spawnPoint.position, Quaternion.identity);
-		label.text = prefab.name;
+		clone.GetComponent<P1Controller>().enabled = true;
 	}
 }
