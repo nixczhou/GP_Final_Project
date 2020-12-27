@@ -5,14 +5,23 @@ using TMPro;
 
 public class LoadCharacter : MonoBehaviour
 {
-	public GameObject[] characterPrefabs;
-	public Transform spawnPoint;
+	public GameObject[] player1_characterPrefabs;
+	public GameObject[] player2_characterPrefabs;
 
 	void Start()
 	{
-		int selectedCharacter = PlayerPrefs.GetInt("player1_selectedCharacter");
-		GameObject prefab = characterPrefabs[selectedCharacter];
-		GameObject clone = Instantiate(prefab, spawnPoint.position, Quaternion.identity);
-		clone.GetComponent<P1Controller>().enabled = true;
+		//for initialize player 1 gameobject after character select
+		int player1_selectedCharacter = PlayerPrefs.GetInt("player1_selectedCharacter");
+		GameObject player1_spawn = player1_characterPrefabs[player1_selectedCharacter];
+		player1_spawn.SetActive(true);
+		GameScript.player1 = player1_spawn;
+
+
+		//for initialize player 2 gameobject after character select
+		int player2_selectedCharacter = PlayerPrefs.GetInt("player2_selectedCharacter");
+		GameObject player2_spawn = player2_characterPrefabs[player2_selectedCharacter];
+		player2_spawn.SetActive(true);
+		GameScript.player2 = player2_spawn;
+		
 	}
 }
