@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class LoadCharacter : MonoBehaviour
+public class LoadSettings : MonoBehaviour
 {
 	public GameObject[] player1_characterPrefabs;
 	public GameObject[] player2_characterPrefabs;
+	public GameObject[] court_characterPrefabs;
 
 	void Start()
 	{
@@ -22,6 +23,12 @@ public class LoadCharacter : MonoBehaviour
 		GameObject player2_spawn = player2_characterPrefabs[player2_selectedCharacter];
 		player2_spawn.SetActive(true);
 		GameScript.player2 = player2_spawn;
+
+
+		//for initialize court gameobject after court select
+		int court_selectedCourt = PlayerPrefs.GetInt("selectedCourt");
+		GameObject court_spawn = court_characterPrefabs[court_selectedCourt];
+		court_spawn.SetActive(true);
 		
 	}
 }
