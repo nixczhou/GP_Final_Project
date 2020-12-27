@@ -264,8 +264,19 @@ public class PlayerController : MonoBehaviour
             //update show force bar
             force += 0.2f;
             float bar_fill = force-10.0f;
+            PowerBar = GameObject.FindWithTag("PowerBar1");
             PowerBar.transform.GetChild(2).GetComponent<Image>().fillAmount = bar_fill/max_force;
-            if(bar_fill > max_force) bar_fill = 0.0f;
+            if(bar_fill > max_force) force = 10.0f;
+        }
+
+
+        if(Input.GetKey("p")){
+            //update show force bar
+            force += 0.2f;
+            float bar_fill = force-10.0f;
+            PowerBar = GameObject.FindWithTag("PowerBar2");
+            PowerBar.transform.GetChild(2).GetComponent<Image>().fillAmount = bar_fill/max_force;
+            if(bar_fill > max_force) force = 10.0f;
         }
     }
 

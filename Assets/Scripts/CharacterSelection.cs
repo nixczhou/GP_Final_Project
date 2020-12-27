@@ -29,4 +29,15 @@ public class CharacterSelection : MonoBehaviour
 		PlayerPrefs.SetInt("selectedCharacter", selectedCharacter);
 		SceneManager.LoadScene(1, LoadSceneMode.Single);
 	}
+
+	void Update()
+	{
+		if(Input.GetKeyDown(KeyCode.D)){
+			NextCharacter();
+		}
+
+		if(Input.GetKeyDown(KeyCode.A)){
+			PreviousCharacter();
+		}
+	}
 }
