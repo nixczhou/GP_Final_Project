@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System;
 
 public class PlayerController : MonoBehaviour
 {
@@ -12,6 +13,7 @@ public class PlayerController : MonoBehaviour
     public float speed;
     public bool accumulative_state;
     private float holdDownStartTime;
+    private float holdDownTime;
 
     //Player Identity
     public bool player1;
@@ -85,7 +87,7 @@ public class PlayerController : MonoBehaviour
         HealthBar.transform.GetChild(4).GetComponent<Image>().fillAmount = 0.0f;
     }
 
-    void FixedUpdate()
+    void Update()
     {
         //re-position after a point finish
          if(pointStart){
@@ -237,13 +239,15 @@ public class PlayerController : MonoBehaviour
         }
         
         if(Input.GetKey(serveKey)){
-            float holdDownTime = Time.time - holdDownStartTime;
+            if (String.Equals(serveKey, "e")) PowerBar = GameObject.FindWithTag("PowerBar1");
+            else PowerBar = GameObject.FindWithTag("PowerBar2");
+            holdDownTime = Time.time - holdDownStartTime;
             PowerBar.transform.GetChild(2).GetComponent<Image>().fillAmount = CalculateHoldDownForce(holdDownTime)/max_force;
         }
         
         if(Input.GetKeyUp(serveKey)){
             //Initialize Ball
-            float holdDownTime = Time.time - holdDownStartTime;
+            holdDownTime = Time.time - holdDownStartTime;
             ball.transform.position = transform.position + new Vector3(0.0f, 2.0f, 0.0f);
             force = CalculateHoldDownForce(holdDownTime);
             animator.SetBool("serve", true);
@@ -253,6 +257,7 @@ public class PlayerController : MonoBehaviour
             Vector3 dir = aim.transform.position - gameObject.transform.position;
             ball.GetComponent<Rigidbody>().velocity = dir.normalized * force + new Vector3(0,10,0);
             gameState = -1;
+            holdDownTime = 0.0f;
         }
         
     }
@@ -262,8 +267,19 @@ public class PlayerController : MonoBehaviour
             //update show force bar
             force += 0.2f;
             float bar_fill = force-10.0f;
+            PowerBar = GameObject.FindWithTag("PowerBar1");
             PowerBar.transform.GetChild(2).GetComponent<Image>().fillAmount = bar_fill/max_force;
-            if(bar_fill > max_force) bar_fill = 0.0f;
+            if(bar_fill > max_force) force = 10.0f;
+        }
+
+
+        if(Input.GetKey("p")){
+            //update show force bar
+            force += 0.2f;
+            float bar_fill = force-10.0f;
+            PowerBar = GameObject.FindWithTag("PowerBar2");
+            PowerBar.transform.GetChild(2).GetComponent<Image>().fillAmount = bar_fill/max_force;
+            if(bar_fill > max_force) force = 10.0f;
         }
     }
 

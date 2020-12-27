@@ -31,8 +31,8 @@ public class GameScript : MonoBehaviour
     public bool pointReset = false;
     public int serveNum = 0;
 
-    public GameObject player1;
-    public GameObject player2;
+    public static GameObject player1;
+    public static GameObject player2;
     public GameObject ball;
 
     public Text outText;

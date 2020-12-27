@@ -7,6 +7,8 @@ TagManager:
   - PlayerEyes
   - ball
   - court
+  - PowerBar2
+  - PowerBar1
   layers:
   - Default
   - TransparentFX
