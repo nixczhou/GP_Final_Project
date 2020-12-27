@@ -22,12 +22,18 @@ public class BallController : MonoBehaviour
     public ParticleSystem skill1;
     public ParticleSystem skill2;
 
+    public GameObject blackhole_1;
+    public GameObject blackhole_2;
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        
+
         skill1 = GameObject.Find("skill1").GetComponent<ParticleSystem>();
         skill2 = GameObject.Find("skill2").GetComponent<ParticleSystem>();
+
+        blackhole_1 = GameObject.Find("blackhole_1");
+        blackhole_2 = GameObject.Find("blackhole_2");
     }
     // Update is called once per frame
     void FixedUpdate()
@@ -41,13 +47,15 @@ public class BallController : MonoBehaviour
             skill2.Play();
         }
     }
-    void OnCollisionEnter (Collision other)
+    void OnCollisionEnter(Collision other)
     {
-        if(other.gameObject.name == "Player1"){
+        if (other.gameObject.name == "Player1")
+        {
             player1LastHit = true;
             firstBounce = false;
-        } 
-        else if(other.gameObject.name == "Player2"){
+        }
+        else if (other.gameObject.name == "Player2")
+        {
             player1LastHit = false;
             firstBounce = false;
         }
@@ -65,19 +73,33 @@ public class BallController : MonoBehaviour
         }
         */
     }
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "blackhole")
+        {
+            if (other.gameObject.name == "blackhole_1" && player1LastHit == true)
+            {
+                gameObject.transform.position = blackhole_2.transform.position;
+            }
+            else if (other.gameObject.name == "blackhole_2" && player1LastHit == false)
+            {
+                gameObject.transform.position = blackhole_1.transform.position;
+            }
+        }
+    }
 
     public void ball_reinit_to_player1()
     {
         gameObject.transform.position = new Vector3(1.76f, 1.8f, -9.49f);
-        rb.velocity = new Vector3 (0.0f, 0.0f, 0.0f);
+        rb.velocity = new Vector3(0.0f, 0.0f, 0.0f);
     }
     public void ball_reinit_to_player2()
     {
         gameObject.transform.position = new Vector3(-1.7f, 1.8f, 5.0f);
-        rb.velocity = new Vector3 (0.0f, 0.0f, 0.0f);
+        rb.velocity = new Vector3(0.0f, 0.0f, 0.0f);
     }
     public void add_force_to_ball(float force, Vector3 direction)
     {
-        rb.AddForce((direction*100.0f + new Vector3(0.0f, 10.0f, 0.0f))*force);
+        rb.AddForce((direction * 100.0f + new Vector3(0.0f, 10.0f, 0.0f)) * force);
     }
 }
