@@ -27,6 +27,7 @@ public class LoadSettings : MonoBehaviour
 
 		//for initialize court gameobject after court select
 		int court_selectedCourt = PlayerPrefs.GetInt("selectedCourt");
+		Debug.Log(court_selectedCourt);
 		GameObject court_spawn = court_characterPrefabs[court_selectedCourt];
 		court_spawn.SetActive(true);
 		

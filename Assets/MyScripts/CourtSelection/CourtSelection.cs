@@ -27,6 +27,18 @@ public class CourtSelection : MonoBehaviour
 	public void StartGame()
 	{
 		PlayerPrefs.SetInt("selectedCourt", selectedCourt);
-		SceneManager.LoadScene(2, LoadSceneMode.Single);
+
+		if(selectedCourt == 2){
+			//Load black hole scene
+			SceneManager.LoadScene(4, LoadSceneMode.Single);
+		}
+		else if (selectedCourt == 1){
+			//Load sand scene
+			SceneManager.LoadScene(3, LoadSceneMode.Single);
+		}
+		else {
+			//Load main (green court)
+			SceneManager.LoadScene(2, LoadSceneMode.Single);
+		}
 	}
 }
