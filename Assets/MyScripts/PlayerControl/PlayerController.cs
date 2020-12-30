@@ -81,7 +81,10 @@ public class PlayerController : MonoBehaviour
         animator = GetComponent<Animator>();
 
         //Initialize Animation States
-        animationInitialization();
+        normalState = Animator.StringToHash("Base Layer.NormalStatus");
+        forehandState = Animator.StringToHash("Base Layer.Forehand");
+        backhandState = Animator.StringToHash("Base Layer.Backhand");
+        serveState = Animator.StringToHash("Base Layer.Serve");
 
         //Initialize Charge Bar
         HealthBar.transform.GetChild(4).GetComponent<Image>().fillAmount = 0.0f;
@@ -116,26 +119,30 @@ public class PlayerController : MonoBehaviour
             }
             pointStart = false;
         }
-
-        //Animation State
-        AnimatorStateInfo state = animator.GetCurrentAnimatorStateInfo(0);
         
         //Serving 
         if(gameState >= 0 && gameState <= 3){
             serve();
-        }
-        characterMovement();      
+        }    
         GetComponent<BoxCollider>().enabled = true;
         
         aimMovement();
+
+        powerBar();
+    }
+
+    void FixedUpdate()
+    {
+        characterMovement(); 
+        
+        //Animation State
+        AnimatorStateInfo state = animator.GetCurrentAnimatorStateInfo(0);
 
         //Update Animation
         if(state.fullPathHash == forehandState) animator.SetBool("forehand", false);
         if(state.fullPathHash == backhandState) animator.SetBool("backhand", false);
         if(state.fullPathHash == servePrepState) animator.SetBool("servePrep", false);
         if(state.fullPathHash == serveState) animator.SetBool("serve", false);
-
-        powerBar();
     }
 
     void OnTriggerEnter(Collider col)
@@ -182,11 +189,30 @@ public class PlayerController : MonoBehaviour
     protected void characterMovement(){
         int playerDir = 1;
         if (!player1) playerDir = -1;
-        if(Input.GetKey(forwardKey)) gameObject.transform.Translate(Vector3.forward * Time.deltaTime * speed * playerDir, Space.World);
-        if(Input.GetKey(leftKey)) gameObject.transform.Translate(Vector3.left * Time.deltaTime * speed * playerDir, Space.World);
-        if(Input.GetKey(backwardKey)) gameObject.transform.Translate(Vector3.forward * Time.deltaTime * speed *-1 * playerDir, Space.World);
-        if(Input.GetKey(rightKey)) gameObject.transform.Translate(Vector3.right * Time.deltaTime * speed * playerDir, Space.World);
-
+        if(Input.GetKey(forwardKey)) 
+        {
+            gameObject.transform.Translate(Vector3.forward * Time.deltaTime * speed * playerDir, Space.World);
+            animator.SetBool("run", true);
+        }
+        else if(Input.GetKey(leftKey)) 
+        {
+            gameObject.transform.Translate(Vector3.left * Time.deltaTime * speed * playerDir, Space.World);
+            animator.SetBool("run", true);
+        }
+        else if(Input.GetKey(backwardKey)) 
+        {
+            gameObject.transform.Translate(Vector3.forward * Time.deltaTime * speed *-1 * playerDir, Space.World);
+            animator.SetBool("run", true);
+        }
+        else if(Input.GetKey(rightKey)) 
+        {
+            gameObject.transform.Translate(Vector3.right * Time.deltaTime * speed * playerDir, Space.World);
+            animator.SetBool("run", true);
+        }
+        else
+        {
+            animator.SetBool("run", false);
+        }
         //Restrict from moving across the court
         if(player1 && transform.position.z >= -court.GetComponent<GameScript>().net){
             transform.position = new Vector3(transform.position.x, transform.position.y, -court.GetComponent<GameScript>().net);

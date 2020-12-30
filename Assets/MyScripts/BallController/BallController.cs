@@ -19,18 +19,18 @@ public class BallController : MonoBehaviour
     */
     public int ballState;
 
+    public GameObject blackhole_1;
+    public GameObject blackhole_2;
+
     public ParticleSystem skill1;
     public ParticleSystem skill2;
 
-    public GameObject blackhole_1;
-    public GameObject blackhole_2;
+    float skill2_start_time = 0.0f;
+    float skill2_current_time = 0.0f;
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-
-        skill1 = GameObject.Find("skill1").GetComponent<ParticleSystem>();
-        skill2 = GameObject.Find("skill2").GetComponent<ParticleSystem>();
 
         blackhole_1 = GameObject.Find("blackhole_1");
         blackhole_2 = GameObject.Find("blackhole_2");
@@ -38,14 +38,6 @@ public class BallController : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (Input.GetKey(KeyCode.Q))
-        {
-            skill1.Play();
-        }
-        if (Input.GetKey(KeyCode.Keypad7))
-        {
-            skill2.Play();
-        }
     }
     void OnCollisionEnter(Collision other)
     {
@@ -59,19 +51,6 @@ public class BallController : MonoBehaviour
             player1LastHit = false;
             firstBounce = false;
         }
-        /*
-        if(other.gameObject.name=="player1" || other.gameObject.name=="player2")
-        {
-            if (skill1.isPlaying)
-            {
-                skill1.Stop();
-            }
-            if (skill2.isPlaying)
-            {
-                skill2.Stop();
-            }
-        }
-        */
     }
     void OnTriggerEnter(Collider other)
     {
@@ -84,6 +63,20 @@ public class BallController : MonoBehaviour
             else if (other.gameObject.name == "blackhole_2" && player1LastHit == false)
             {
                 gameObject.transform.position = blackhole_1.transform.position;
+            }
+        }
+        skill2_current_time = Time.time;
+        if (other.name == "Player2" && player1LastHit == false)
+        {
+            skill1.Clear();
+            skill1.Stop();
+        }
+        else if (other.name == "Player1" && player1LastHit == true)
+        {
+            if (skill2_current_time - skill2_start_time >= 30.0f)
+            {
+                skill2.Clear();
+                skill2.Stop();
             }
         }
     }
@@ -102,4 +95,14 @@ public class BallController : MonoBehaviour
     {
         rb.AddForce((direction * 100.0f + new Vector3(0.0f, 10.0f, 0.0f)) * force);
     }
+    public void ball_skill1()
+    {
+        skill1.Play();
+    }
+    public void ball_skill2()
+    {
+        skill2.Play();
+        skill2_start_time = Time.time;
+    }
+
 }

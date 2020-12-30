@@ -1572,10 +1572,10 @@ MonoBehaviour:
   firstBounce: 0
   player1LastHit: 1
   ballState: 0
-  skill1: {fileID: 0}
-  skill2: {fileID: 0}
   blackhole_1: {fileID: 0}
   blackhole_2: {fileID: 0}
+  skill1: {fileID: 0}
+  skill2: {fileID: 0}
 --- !u!4 &273113627 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -4216859302048453862, guid: 74cbada03bcd41d49acec56746acf71e,
@@ -2062,7 +2062,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 1b1a016856447204289da1fec2ee17e7, type: 2}
+  - {fileID: 2100000, guid: 37db27cd90bcb064daf2429fa42e022f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
