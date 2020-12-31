@@ -4,36 +4,56 @@ using UnityEngine;
 
 public class skill_control : MonoBehaviour
 {
-    ParticleSystem skill_effect;
-    public BallController ball;
+    ParticleSystem skill_effect_on_player;
+    ParticleSystem skill3_effect;
     public string skill_key;
+    public BallController ball;
+    public field_skill_control field;
+    float skill3_current_time = 0.0f;
+    float skill3_start_time = 0.0f;
     // Start is called before the first frame update
     void Start()
     {
-        skill_effect = GetComponentInChildren<ParticleSystem>();
+        ball = GameObject.Find("ball").GetComponent<BallController>();
+        field = GameObject.Find("Court").GetComponent<field_skill_control>();
+        skill_effect_on_player = transform.FindChild("skill_effect").GetComponent<ParticleSystem>();
+        skill_effect_on_player.Stop();
+        skill3_effect = transform.FindChild("skill3").GetComponent<ParticleSystem>();
+        skill3_effect.Stop();
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
+        skill3_current_time = Time.time;
         if(Input.GetKey(skill_key)) 
         {
-            skill_effect.Play();
-            if (transform.parent.name == "Player1")
+            if (transform.name == "Player_1")
             {
-                ball.ball_skill1();
+                skill_effect_on_player.Play();
+                ball.ball_skill(transform.parent.name);
             }
-            else if (transform.parent.name == "Player2")
+            else if  (transform.name == "Player_2")
             {
-                ball.ball_skill2();
+                field.field_skill(transform.parent.name);
             }
+            else if  (transform.name == "Player_3")
+            {
+                skill3_start_time = Time.time;
+                skill3_effect.Play();
+            }
+        }
+        if (skill3_current_time - skill3_start_time >= 30.0f)
+        {
+            skill3_effect.Clear();
+            skill3_effect.Stop();
         }
     }
     void OnTriggerEnter(Collider col)
     {
         if(col.tag == "ball")
         {
-            skill_effect.Stop();
+            skill_effect_on_player.Stop();
         }
     }
 }

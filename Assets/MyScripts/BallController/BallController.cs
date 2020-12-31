@@ -22,11 +22,10 @@ public class BallController : MonoBehaviour
     public GameObject blackhole_1;
     public GameObject blackhole_2;
 
-    public ParticleSystem skill1;
-    public ParticleSystem skill2;
-
-    float skill2_start_time = 0.0f;
-    float skill2_current_time = 0.0f;
+    /* skill control init */
+    public ParticleSystem ball_skill_effect;
+    string last_player_name = "";
+    bool skill_mode = false;
 
     void Start()
     {
@@ -34,10 +33,12 @@ public class BallController : MonoBehaviour
 
         blackhole_1 = GameObject.Find("blackhole_1");
         blackhole_2 = GameObject.Find("blackhole_2");
+        ball_skill_effect = GetComponentInChildren<ParticleSystem>();
     }
     // Update is called once per frame
     void FixedUpdate()
     {
+
     }
     void OnCollisionEnter(Collision other)
     {
@@ -65,19 +66,16 @@ public class BallController : MonoBehaviour
                 gameObject.transform.position = blackhole_1.transform.position;
             }
         }
-        skill2_current_time = Time.time;
-        if (other.name == "Player2" && player1LastHit == false)
+        /* skill control */
+        if (other.tag == "player" && last_player_name != other.transform.parent.name)
         {
-            skill1.Clear();
-            skill1.Stop();
+            ball_skill_effect.Clear();
+            ball_skill_effect.Stop();
+            skill_mode = false;
         }
-        else if (other.name == "Player1" && player1LastHit == true)
+        if (other.tag == "player" && skill_mode)
         {
-            if (skill2_current_time - skill2_start_time >= 30.0f)
-            {
-                skill2.Clear();
-                skill2.Stop();
-            }
+            ball_skill_effect.Play();
         }
     }
 
@@ -95,14 +93,10 @@ public class BallController : MonoBehaviour
     {
         rb.AddForce((direction * 100.0f + new Vector3(0.0f, 10.0f, 0.0f)) * force);
     }
-    public void ball_skill1()
+    /* skill control function */
+    public void ball_skill(string player_name)
     {
-        skill1.Play();
+        last_player_name = player_name;
+        skill_mode = true;
     }
-    public void ball_skill2()
-    {
-        skill2.Play();
-        skill2_start_time = Time.time;
-    }
-
 }
