@@ -125,8 +125,6 @@ public class PlayerController : MonoBehaviour
             serve();
         }    
         GetComponent<BoxCollider>().enabled = true;
-        
-        aimMovement();
 
         powerBar();
     }
@@ -134,7 +132,9 @@ public class PlayerController : MonoBehaviour
     void FixedUpdate()
     {
         characterMovement(); 
-        
+
+        aimMovement();
+
         //Animation State
         AnimatorStateInfo state = animator.GetCurrentAnimatorStateInfo(0);
 

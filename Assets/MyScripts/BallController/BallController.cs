@@ -22,7 +22,7 @@ public class BallController : MonoBehaviour
     public GameObject blackhole_1;
     public GameObject blackhole_2;
 
-    /* skill control init */
+    /* ball_skill control init */
     public ParticleSystem ball_skill_effect;
     string last_player_name = "";
     bool skill_mode = false;
@@ -66,7 +66,7 @@ public class BallController : MonoBehaviour
                 gameObject.transform.position = blackhole_1.transform.position;
             }
         }
-        /* skill control */
+        /* ball_skill control */
         if (other.tag == "player" && last_player_name != other.transform.parent.name)
         {
             ball_skill_effect.Clear();
@@ -93,7 +93,7 @@ public class BallController : MonoBehaviour
     {
         rb.AddForce((direction * 100.0f + new Vector3(0.0f, 10.0f, 0.0f)) * force);
     }
-    /* skill control function */
+    /* ball_skill control function */
     public void ball_skill(string player_name)
     {
         last_player_name = player_name;

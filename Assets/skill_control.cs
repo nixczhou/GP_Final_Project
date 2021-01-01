@@ -16,9 +16,9 @@ public class skill_control : MonoBehaviour
     {
         ball = GameObject.Find("ball").GetComponent<BallController>();
         field = GameObject.Find("Court").GetComponent<field_skill_control>();
-        skill_effect_on_player = transform.FindChild("skill_effect").GetComponent<ParticleSystem>();
+        skill_effect_on_player = transform.Find("skill_effect").GetComponent<ParticleSystem>();
         skill_effect_on_player.Stop();
-        skill3_effect = transform.FindChild("skill3").GetComponent<ParticleSystem>();
+        skill3_effect = transform.Find("skill3").GetComponent<ParticleSystem>();
         skill3_effect.Stop();
     }
 
