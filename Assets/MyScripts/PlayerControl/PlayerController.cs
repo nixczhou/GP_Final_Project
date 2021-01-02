@@ -153,7 +153,7 @@ public class PlayerController : MonoBehaviour
             hitNum +=1;
             GameObject.Find("ball").GetComponent<BallController>().firstBounce = false;
 
-            if(gameObject.name == "Player1") GameObject.Find("ball").GetComponent<BallController>().player1LastHit = true; 
+            if(transform.parent.name == "Player1") GameObject.Find("ball").GetComponent<BallController>().player1LastHit = true; 
             else GameObject.Find("ball").GetComponent<BallController>().player1LastHit = false;
 
             // Checking what type of Animation
