@@ -25,7 +25,7 @@ public class BallController : MonoBehaviour
     /* ball_skill control init */
     public ParticleSystem ball_skill_effect;
     string last_player_name = "";
-    bool skill_mode = false;
+    public bool skill_mode = false;
 
     void Start()
     {
@@ -71,7 +71,6 @@ public class BallController : MonoBehaviour
         {
             ball_skill_effect.Clear();
             ball_skill_effect.Stop();
-            skill_mode = false;
         }
         if (other.tag == "player" && skill_mode)
         {

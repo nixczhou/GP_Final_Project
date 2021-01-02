@@ -43,7 +43,7 @@ public class PlayerController : MonoBehaviour
     public GameObject HealthBar;
 
     //Charge
-    private float charge = 0.0f;
+    public float charge = 0.0f;
     public float charge_amount = 0.2f;
 
     // Other Gameobjects

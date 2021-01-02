@@ -8,12 +8,13 @@ public class health_control : MonoBehaviour
 
     // Start is called before the first frame update
     public GameObject HealthBar;
-    public GameScript court;
+    public BallController ball;
     bool init_state = true;
     public Text game_score_text;
     string temp = "";
     void Start()
     {
+        ball = GameObject.Find("ball").GetComponent<BallController>();
         game_score_text = GameObject.Find("CurGameText").GetComponent<Text>();
         temp = game_score_text.text;
     }
@@ -27,9 +28,9 @@ public class health_control : MonoBehaviour
             init_state = true;
         }
     }
-    void OnCollisionEnter(Collision other)
+    void OnTriggerEnter(Collider other)
     {
-        print(other.gameObject.name);
+        print(other.gameObject.transform.root.name);
         if (other.gameObject.transform.root.name == "Player1")
         {
             if (init_state)
@@ -40,6 +41,11 @@ public class health_control : MonoBehaviour
             {
                 HealthBar = GameObject.Find("Player1-HealthBar");
                 HealthBar.transform.GetChild(2).GetComponent<Image>().fillAmount -= 0.05f;
+                if (ball.skill_mode)
+                {
+                    HealthBar.transform.GetChild(2).GetComponent<Image>().fillAmount -= 0.2f;
+                    ball.skill_mode = false;
+                }
             }
         }
         if (other.gameObject.transform.root.name == "Player2")
@@ -52,6 +58,11 @@ public class health_control : MonoBehaviour
             {
                 HealthBar = GameObject.Find("Player2-HealthBar");
                 HealthBar.transform.GetChild(2).GetComponent<Image>().fillAmount -= 0.05f;
+                if (ball.skill_mode)
+                {
+                    HealthBar.transform.GetChild(2).GetComponent<Image>().fillAmount -= 0.2f;
+                    ball.skill_mode = false;
+                }
             }
         }
     }
