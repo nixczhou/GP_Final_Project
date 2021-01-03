@@ -11,6 +11,8 @@ TagManager:
   - PowerBar1
   - blackhole
   - player
+  - healthbar1
+  - healthbar2
   layers:
   - Default
   - TransparentFX

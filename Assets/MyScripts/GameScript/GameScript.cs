@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameScript : MonoBehaviour
 {
@@ -39,6 +40,9 @@ public class GameScript : MonoBehaviour
     public Text gameText;
     public Text p1MatchWonText;
     public Text p2MatchWonText;
+
+    private float HealthBar1;
+    private float HealthBar2;
 
     // Start is called before the first frame update
     void Start()
@@ -136,6 +140,23 @@ public class GameScript : MonoBehaviour
                 player2.GetComponent<P2Controller>().pointStart = true;
             }
         }
+
+        HealthBar1 = GameObject.FindWithTag("healthbar1").GetComponent<Image>().fillAmount;
+        HealthBar2 = GameObject.FindWithTag("healthbar2").GetComponent<Image>().fillAmount;
+
+        if(HealthBar1 == 0.0f){
+            outText.text = "Player 2 Win!!! \n Press ESC to exit";  
+        }
+        else if(HealthBar2 == 0.0f){
+            outText.text = "Player 1 Win!!! \n Press ESC to exit";
+        }
+
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            SceneManager.LoadScene(0, LoadSceneMode.Single);
+        }
+
     }
 
     void FixedUpdate(){
