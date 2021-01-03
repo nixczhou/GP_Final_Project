@@ -33,7 +33,7 @@ public class PlayerController : MonoBehaviour
     */
     public int gameState = 0;
     public bool pointStart = true;
-    public float force = 10.0f;
+    public float force = 15.0f;
 
     //PowerBar
     public GameObject PowerBar;
@@ -170,12 +170,13 @@ public class PlayerController : MonoBehaviour
             col.gameObject.GetComponent<Rigidbody>().velocity = dir.normalized * force + new Vector3(0,6,0);
 
             //Reset the power
-            force = 10.0f;
+            force = 15.0f;
             PowerBar.transform.GetChild(2).GetComponent<Image>().fillAmount = 0.0f;
 
             //Gain charge
             charge = charge + charge_amount;
             HealthBar.transform.GetChild(4).GetComponent<Image>().fillAmount = Mathf.Min(1.0f,charge);
+
         }
     }
 
@@ -275,7 +276,7 @@ public class PlayerController : MonoBehaviour
             //Initialize Ball
             holdDownTime = Time.time - holdDownStartTime;
             ball.transform.position = transform.position + new Vector3(0.0f, 2.0f, 0.0f);
-            force = CalculateHoldDownForce(holdDownTime);
+            force = CalculateHoldDownForce(holdDownTime) + 3.0f;
             animator.SetBool("serve", true);
             animator.SetBool("servePrep", false);
 
@@ -292,20 +293,20 @@ public class PlayerController : MonoBehaviour
         if(Input.GetKey("space")){
             //update show force bar
             force += 0.2f;
-            float bar_fill = force-10.0f;
+            float bar_fill = force-15.0f;
             PowerBar = GameObject.FindWithTag("PowerBar1");
             PowerBar.transform.GetChild(2).GetComponent<Image>().fillAmount = bar_fill/max_force;
-            if(bar_fill > max_force) force = 10.0f;
+            if(bar_fill > max_force) force = 15.0f;
         }
 
 
         if(Input.GetKey("p")){
             //update show force bar
             force += 0.2f;
-            float bar_fill = force-10.0f;
+            float bar_fill = force-15.0f;
             PowerBar = GameObject.FindWithTag("PowerBar2");
             PowerBar.transform.GetChild(2).GetComponent<Image>().fillAmount = bar_fill/max_force;
-            if(bar_fill > max_force) force = 10.0f;
+            if(bar_fill > max_force) force = 15.0f;
         }
     }
 
