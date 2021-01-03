@@ -9,6 +9,8 @@ TagManager:
   - court
   - PowerBar2
   - PowerBar1
+  - blackhole
+  - player
   layers:
   - Default
   - TransparentFX

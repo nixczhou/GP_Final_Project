@@ -1090,6 +1090,7 @@ GameObject:
   - component: {fileID: 7803006496827309778}
   - component: {fileID: 7803006496827309779}
   - component: {fileID: -5811581430834188590}
+  - component: {fileID: -5346248178354680237}
   m_Layer: 0
   m_Name: Character1
   m_TagString: Untagged
@@ -1260,6 +1261,21 @@ MonoBehaviour:
   aimLeftKey: .
   specialAttackKeys: []
   hitNum: 0
+--- !u!114 &-5346248178354680237
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2263116018502824308}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c10ed4e757fa7841a4c86e13452b422, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ball: {fileID: 0}
+  skill_key1: q
+  skill_key2: ;
 --- !u!1 &2494794307019384687
 GameObject:
   m_ObjectHideFlags: 0
