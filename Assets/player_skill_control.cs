@@ -14,9 +14,16 @@ public class player_skill_control : MonoBehaviour
     public PlayerController player;
     float skill3_current_time = 0.0f;
     float skill3_start_time = 0.0f;
+    /*music effect*/
+    public AudioClip skill1_audio;
+    public AudioClip skill2_audio;
+    public AudioClip skill3_audio;
+    AudioSource audiosource;
+
     // Start is called before the first frame update
     void Start()
     {
+        audiosource = GameObject.Find("ball").GetComponent<AudioSource>();
         ball = GameObject.Find("ball").GetComponent<BallController>();
         field = GameObject.Find("Court").GetComponent<field_skill_control>();
         skill_effect_on_player = transform.Find("skill_effect").GetComponent<ParticleSystem>();
@@ -42,11 +49,15 @@ public class player_skill_control : MonoBehaviour
         {
             if (transform.name == "Player_1")
             {
+                audiosource.PlayOneShot(skill1_audio);
                 skill_effect_on_player.Play();
                 ball.ball_skill(transform.parent.name);
             }
             else if  (transform.name == "Player_2")
             {
+                //audiosource.clip = skill2_audio;
+                //audiosource.Play();
+                audiosource.PlayOneShot(skill2_audio);
                 field.field_skill(transform.parent.name);
             }
             else if  (transform.name == "Player_3")
