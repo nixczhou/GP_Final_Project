@@ -178,9 +178,53 @@ public class GameScript : MonoBehaviour
             }
             else if(player1.GetComponent<P1Controller>().hitNum != 0 &&  player1.GetComponent<P1Controller>().hitNum != 0 && pointReset== false){
                 outText.text = "OUT!";
-                    gamePointCalculation();
-                    pointReset = true;
-                    StartCoroutine(clearOutText(2.0f));
+                gamePointCalculation();
+                pointReset = true;
+                StartCoroutine(clearOutText(2.0f));
+            }
+            else if(player1.GetComponent<P1Controller>().hitNum == 1 &&  player1.GetComponent<P1Controller>().hitNum == 0 ){
+                int ballState = ball.GetComponent<BallController>().ballState;
+                 if(ballState  >= 0 && ballState <= 3){
+                        serveNum += 1;
+                        ballOut = true;
+                        pointReset = true;
+                        ballReset();
+                        if(serveNum == 1){
+                            outText.text = "Fault! Second Serve";
+                            StartCoroutine(clearOutText(2.0f));
+                        }
+                        return;
+                    }
+                    else{
+                        ballOut = true;
+                        pointReset = true;
+                        ballReset();
+                        gamePointCalculation();
+                        outText.text = "OUT!";
+                        StartCoroutine(clearOutText(2.0f));
+                    }
+            }
+            else if(player2.GetComponent<P2Controller>().hitNum == 1 &&  player2.GetComponent<P2Controller>().hitNum == 0 ){
+                int ballState = ball.GetComponent<BallController>().ballState;
+                 if(ballState  >= 0 && ballState <= 3){
+                        serveNum += 1;
+                        ballOut = true;
+                        pointReset = true;
+                        ballReset();
+                        if(serveNum == 1){
+                            outText.text = "Fault! Second Serve";
+                            StartCoroutine(clearOutText(2.0f));
+                        }
+                        return;
+                    }
+                    else{
+                        ballOut = true;
+                        pointReset = true;
+                        ballReset();
+                        gamePointCalculation();
+                        outText.text = "OUT!";
+                        StartCoroutine(clearOutText(2.0f));
+                    }
             }
             ball.GetComponent<BallController>().firstBounce = false;
         }
