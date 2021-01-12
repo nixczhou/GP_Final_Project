@@ -75,6 +75,14 @@ public class GameScript : MonoBehaviour
             
             pointReset = false;
 
+             /*
+                0 = 0
+                1 = 15
+                2 = 30
+                3 = 40
+                4 = Adv
+                5 = won
+            */
             //Match Calculation
             if(p1gamepoint == 5 || p2gamepoint == 5){
                 if(p1gamepoint == 5) p1MatchWon += 1;
@@ -144,10 +152,10 @@ public class GameScript : MonoBehaviour
         HealthBar1 = GameObject.FindWithTag("healthbar1").GetComponent<Image>().fillAmount;
         HealthBar2 = GameObject.FindWithTag("healthbar2").GetComponent<Image>().fillAmount;
 
-        if(HealthBar1 == 0.0f){
+        if(HealthBar1 == 0.0f || p2MatchWon == 2){
             outText.text = "Player 2 Win!!! \n Press ESC to exit";  
         }
-        else if(HealthBar2 == 0.0f){
+        else if(HealthBar2 == 0.0f || p1MatchWon == 2){
             outText.text = "Player 1 Win!!! \n Press ESC to exit";
         }
 
@@ -162,15 +170,17 @@ public class GameScript : MonoBehaviour
     void FixedUpdate(){
         if(ball.transform.position.y < -1){
             ballReset();
-            if(ball.GetComponent<BallController>().firstBounce){
+            if(ball.GetComponent<BallController>().firstBounce && pointReset== false){
                 gamePointCalculation();
                 pointReset = true;
                 outText.text = "Great Shot!";
                 StartCoroutine(clearOutText(2.0f));
             }
-            else if(player1.GetComponent<P1Controller>().hitNum != 0 && player2.GetComponent<P2Controller>().hitNum != 0){
+            else if(player1.GetComponent<P1Controller>().hitNum != 0 &&  player1.GetComponent<P1Controller>().hitNum != 0 && pointReset== false){
                 outText.text = "OUT!";
-                StartCoroutine(clearOutText(2.0f));
+                    gamePointCalculation();
+                    pointReset = true;
+                    StartCoroutine(clearOutText(2.0f));
             }
             ball.GetComponent<BallController>().firstBounce = false;
         }
@@ -359,20 +369,49 @@ public class GameScript : MonoBehaviour
     private void gamePointCalculation(){
 
         if(ball.GetComponent<BallController>().player1LastHit){
-            if(p1gamepoint >= 0 && p1gamepoint <= 2){
-                p1gamepoint += 1;
+            if(ball.GetComponent<BallController>().firstBounce == false){
+                player2PointCalc();
             }
             else{
-                if(p1gamepoint == 3 && p2gamepoint == 3 || p1gamepoint == 4 && p2gamepoint == 3){
-                    p1gamepoint += 1;
-                }
-                else{
-                    p1gamepoint = 5;
-                }
+                player1PointCalc();
             }
         }
         else{
-            if(p2gamepoint >= 0 && p2gamepoint <= 2){
+            if(ball.GetComponent<BallController>().firstBounce == false){
+                player1PointCalc();
+            }
+            else{
+                player2PointCalc();
+            }
+        }
+        serveNum = 0; 
+        updateGameText();
+    }
+
+        /*
+                0 = 0
+                1 = 15
+                2 = 30
+                3 = 40
+                4 = Adv
+                5 = won
+        */
+    private void player1PointCalc(){
+        if(p1gamepoint >= 0 && p1gamepoint <= 2){
+            p1gamepoint += 1;
+        }
+        else{
+            if(p1gamepoint == 3 && p2gamepoint == 3 || p1gamepoint == 4 && p2gamepoint == 3){
+                p1gamepoint += 1;
+            }
+            else{
+                p1gamepoint = 5;
+            }
+        }
+    }
+
+    private void player2PointCalc(){
+        if(p2gamepoint >= 0 && p2gamepoint <= 2){
                 p2gamepoint += 1;
             }
             else{
@@ -383,14 +422,14 @@ public class GameScript : MonoBehaviour
                     p2gamepoint = 5;
                 }
             }
-        }
-        serveNum = 0; 
-        updateGameText();
     }
 
     void ballReset(){
         ball.GetComponent<Rigidbody>().velocity = Vector3.zero;
+        ball.GetComponent<Rigidbody>().angularVelocity = Vector3.zero; 
         ball.transform.position = new Vector3(0.04f, -20.0f, -22.87f);
+        ball.GetComponent<Rigidbody>().velocity = Vector3.zero;
+        ball.GetComponent<Rigidbody>().angularVelocity = Vector3.zero; 
     } 
     void updateGameText(){
         string p1Text = "00";

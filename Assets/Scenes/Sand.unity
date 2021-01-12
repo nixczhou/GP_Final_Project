@@ -3167,7 +3167,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b788737a898674429d0d962d48797be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HealthBar: {fileID: 0}
+  HealthBar: {fileID: 1806879648}
   ball: {fileID: 0}
   game_score_text: {fileID: 0}
 --- !u!114 &820234106
@@ -7046,7 +7046,7 @@ Transform:
   - {fileID: 2081475747}
   - {fileID: 1142468970}
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1760499373
 PrefabInstance:
@@ -8330,7 +8330,7 @@ RectTransform:
   - {fileID: 671828301}
   - {fileID: 1743180099}
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}

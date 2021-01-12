@@ -21,6 +21,7 @@ public class field_skill_control : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        print(skill_mode);
         current_time = Time.time;
         if (current_time - start_time >= 10.0f)
         {
