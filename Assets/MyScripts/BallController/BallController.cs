@@ -44,6 +44,17 @@ public class BallController : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        // if(gameObject.transform.position.y < -0.1f & gameObject.transform.position.z > 15.79f){
+        //     print("out!");
+        // }
+        // else if(gameObject.transform.position.y < -0.1f & gameObject.transform.position.z < -15.79f){
+        //     print("out!");
+        // }
+        if (skill_mode == false)
+        {
+            ball_skill_effect.Clear();
+            ball_skill_effect.Stop();
+        }
     }
     void OnCollisionEnter(Collision other)
     {

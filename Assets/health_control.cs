@@ -17,6 +17,7 @@ public class health_control : MonoBehaviour
         ball = GameObject.Find("ball").GetComponent<BallController>();
         game_score_text = GameObject.Find("CurGameText").GetComponent<Text>();
         temp = game_score_text.text;
+        print(HealthBar.transform.name);
     }
 
     // Update is called once per frame
@@ -39,11 +40,9 @@ public class health_control : MonoBehaviour
             }
             else
             {
-                HealthBar = GameObject.Find("Player1-HealthBar");
-                HealthBar.transform.GetChild(2).GetComponent<Image>().fillAmount -= 0.05f;
                 if (ball.skill_mode)
                 {
-                    HealthBar.transform.GetChild(2).GetComponent<Image>().fillAmount -= 0.2f;
+                    HealthBar.transform.GetChild(2).transform.GetChild(2).GetComponent<Image>().fillAmount -= 0.2f;
                     ball.skill_mode = false;
                 }
             }
@@ -56,11 +55,9 @@ public class health_control : MonoBehaviour
             }
             else
             {
-                HealthBar = GameObject.Find("Player2-HealthBar");
-                HealthBar.transform.GetChild(2).GetComponent<Image>().fillAmount -= 0.05f;
                 if (ball.skill_mode)
                 {
-                    HealthBar.transform.GetChild(2).GetComponent<Image>().fillAmount -= 0.2f;
+                    HealthBar.transform.GetChild(3).transform.GetChild(2).GetComponent<Image>().fillAmount -= 0.2f;
                     ball.skill_mode = false;
                 }
             }

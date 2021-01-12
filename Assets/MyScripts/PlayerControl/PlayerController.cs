@@ -37,7 +37,7 @@ public class PlayerController : MonoBehaviour
 
     //PowerBar
     public GameObject PowerBar;
-    public float max_force = 18.0f;
+    public float max_force = 10.0f;
 
     //HealthBar
     public GameObject HealthBar;
@@ -157,13 +157,14 @@ public class PlayerController : MonoBehaviour
             else GameObject.Find("ball").GetComponent<BallController>().player1LastHit = false;
 
             // Checking what type of Animation
-            Vector3 ballDir = col.gameObject.transform.position - transform.position;
-            if(ballDir.x >= 0){
-                animator.SetBool("forehand", true);
-            }
-            else{
-                animator.SetBool("backhand", true);
-            }
+            if(gameState == -1 || gameState == 4 || gameState == 5){
+                Vector3 ballDir = col.gameObject.transform.position - transform.position;
+                if(ballDir.x >= 0){
+                    animator.SetBool("forehand", true);
+                }
+                else{
+                    animator.SetBool("backhand", true);
+                }
 
             // Hitting direction
             Vector3 dir = aim.transform.position - gameObject.transform.position;
@@ -176,6 +177,8 @@ public class PlayerController : MonoBehaviour
             //Gain charge
             charge = charge + charge_amount;
             HealthBar.transform.GetChild(4).GetComponent<Image>().fillAmount = Mathf.Min(1.0f,charge);
+            }
+           
 
         }
     }
@@ -275,14 +278,23 @@ public class PlayerController : MonoBehaviour
         if(Input.GetKeyUp(serveKey)){
             //Initialize Ball
             holdDownTime = Time.time - holdDownStartTime;
-            ball.transform.position = transform.position + new Vector3(0.0f, 2.0f, 0.0f);
+            if(player1){
+                ball.transform.position = transform.position + new Vector3(0.0f, 2.0f, 0.2f);
+            }
+            else{
+                ball.transform.position = transform.position + new Vector3(0.0f, 2.0f, 0.0f);
+            }
+            
             force = CalculateHoldDownForce(holdDownTime) + 3.0f;
             animator.SetBool("serve", true);
             animator.SetBool("servePrep", false);
 
             // Hitting direction
             Vector3 dir = aim.transform.position - gameObject.transform.position;
+            //print(dir);
+            ball.GetComponent<Rigidbody>().velocity = new Vector3(0.0f, 0.0f, 0.0f); 
             ball.GetComponent<Rigidbody>().velocity = dir.normalized * force + new Vector3(0,10,0);
+            //print(ball.GetComponent<Rigidbody>().velocity);
             gameState = -1;
             holdDownTime = 0.0f;
         }
