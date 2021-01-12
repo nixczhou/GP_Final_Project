@@ -26,6 +26,11 @@ public class BallController : MonoBehaviour
     public ParticleSystem ball_skill_effect;
     string last_player_name = "";
     public bool skill_mode = false;
+    
+    /*music effect*/
+    public AudioClip Batting;
+    public AudioClip blackhole_audio;
+    AudioSource audiosource;
 
     void Start()
     {
@@ -34,14 +39,15 @@ public class BallController : MonoBehaviour
         blackhole_1 = GameObject.Find("blackhole_1");
         blackhole_2 = GameObject.Find("blackhole_2");
         ball_skill_effect = GetComponentInChildren<ParticleSystem>();
+        audiosource = GetComponent<AudioSource>();
     }
     // Update is called once per frame
     void FixedUpdate()
     {
-
     }
     void OnCollisionEnter(Collision other)
     {
+        audiosource.PlayOneShot(Batting);
         if (other.gameObject.name == "Player1")
         {
             player1LastHit = true;
@@ -59,21 +65,25 @@ public class BallController : MonoBehaviour
         {
             if (other.gameObject.name == "blackhole_1" && player1LastHit == true)
             {
+                audiosource.PlayOneShot(blackhole_audio);
                 gameObject.transform.position = blackhole_2.transform.position;
             }
             else if (other.gameObject.name == "blackhole_2" && player1LastHit == false)
             {
+                audiosource.PlayOneShot(blackhole_audio);
                 gameObject.transform.position = blackhole_1.transform.position;
             }
         }
         /* ball_skill control */
         if (other.tag == "player" && last_player_name != other.transform.parent.name)
         {
+            audiosource.PlayOneShot(Batting);
             ball_skill_effect.Clear();
             ball_skill_effect.Stop();
         }
         if (other.tag == "player" && skill_mode)
         {
+            audiosource.PlayOneShot(Batting);
             ball_skill_effect.Play();
         }
     }

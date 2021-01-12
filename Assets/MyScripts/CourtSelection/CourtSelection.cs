@@ -6,8 +6,14 @@ public class CourtSelection : MonoBehaviour
 	public GameObject[] courts;
 	public int selectedCourt = 0;
 
+	/*music effect*/
+	public AudioClip select_audio;
+	AudioSource audiosource;
+
 	public void Next()
 	{
+		audiosource = GameObject.Find("Background_music_select").GetComponent<AudioSource>();
+		audiosource.PlayOneShot(select_audio);
 		courts[selectedCourt].SetActive(false);
 		selectedCourt = (selectedCourt + 1) % courts.Length;
 		courts[selectedCourt].SetActive(true);
@@ -28,7 +34,7 @@ public class CourtSelection : MonoBehaviour
 	{
 		PlayerPrefs.SetInt("selectedCourt", selectedCourt);
 
-		if(selectedCourt == 2){
+		if (selectedCourt == 2){
 			//Load black hole scene
 			SceneManager.LoadScene(4, LoadSceneMode.Single);
 		}
